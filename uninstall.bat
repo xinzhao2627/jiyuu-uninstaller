@@ -1,0 +1,15 @@
+@echo off
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Write-Host 'Jiyuu Force Uninstaller' -ForegroundColor Cyan ; ^
+ Write-Host 'Find the source code at github.com/xinzhao2627/jiyuu-uninstaller' -ForegroundColor Cyan ; ^
+ Write-Host 'Stopping Jiyuu...' ; ^
+ Stop-Process -Name 'jiyuu' -ErrorAction SilentlyContinue ; ^
+ Write-Host 'Removing block data and restrictions lock (if there is any)...' ; ^
+ $roamingPath = \"$env:USERPROFILE\AppData\Roaming\jiyuu\jiyuuData.db\" ; ^
+ $restrictionFile = \"$env:APPDATA\jiyuu\hasRestriction.txt\" ; ^
+ if (Test-Path $roamingPath) { Remove-Item $roamingPath -Force -ErrorAction SilentlyContinue ; Write-Host 'Block data removed' } ; ^
+ if (Test-Path $restrictionFile) { Remove-Item $restrictionFile -Force -ErrorAction SilentlyContinue ; Write-Host 'Restrictions removed' } ; ^
+ Write-Host 'Running uninstaller' -ForegroundColor Yellow ; ^
+ $uninstallerPath = \"$env:LOCALAPPDATA\Programs\jiyuu\Uninstall jiyuu.exe\" ; ^
+ if (Test-Path $uninstallerPath) { Start-Process $uninstallerPath -ArgumentList '/S' ; Write-Host 'uninstaller completed.' -ForegroundColor Green } else { Write-Host 'Built in uninstaller not found' }"
+pause
